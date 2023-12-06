@@ -1,17 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  
+  <div id="app">
+    <WeatherHeader greeting = "Hello" projectTitle = "This is a Weather Application" serverName = "The Server is deployed in Render"/>
+    <WeatherDisplay :weatherData="weatherData" />
+    <button @click="fetchWeatherData">Fetch Weather Data</button>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import WeatherHeader from "./components/WeatherHeader.vue"
+import WeatherDisplay from "./components/WeatherDisplay.vue"
+
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    WeatherDisplay,
+    WeatherHeader
+  },
+  data() {
+    return {
+      weatherData: null,
+    };
+  },
+  methods: {
+    async fetchWeatherData() {
+      try {
+        const response = await fetch("https://weatherinfo-akash.onrender.com/api/weather");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        this.weatherData = (await response.json()).weather;
+      } catch (error) {
+        console.error("Error fetching weather data:", error.message);
+      }
+    },
+  },
+};
 </script>
 
 <style>
