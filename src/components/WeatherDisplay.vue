@@ -1,6 +1,10 @@
 <template>
   <div>
-    <WeatherItem v-for="weatherItem of weatherData" :key="weatherItem.id" :weatherItem="weatherItem" />
+    <div v-for="weatherEntry in weatherData" :key="weatherEntry._id">
+      <div v-for="cityWeather in weatherEntry.weather" :key="cityWeather.id">
+        <WeatherItem :weatherItem="cityWeather" />
+      </div>
+    </div>
   </div>
 </template>
 
